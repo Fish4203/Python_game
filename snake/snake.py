@@ -23,7 +23,7 @@ class game:
         self.size = 30
         self.aiin = []
         self.aiout = []
-        self.movesremaining = 5000
+        self.movesremaining = 10000
         self.tempdirection1 = None
         self.tempdirection2 = None
 
@@ -49,7 +49,7 @@ class game:
         self.size = 30
         self.aiin = []
         self.aiout = []
-        self.movesremaining = 5000
+        self.movesremaining = 10000
         self.tempdirection1 = None
         self.tempdirection2 = None
 
