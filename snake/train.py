@@ -4,7 +4,7 @@ import pickle
 import operator
 import copy
 
-iterations = 1
+iterations = 100
 number_ais = 50
 ais = [AI() for y in range(number_ais)]
 App = game(700,700)
