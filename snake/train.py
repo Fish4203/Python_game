@@ -4,7 +4,7 @@ import pickle
 import operator
 import copy
 
-iterations = 100
+iterations = input('iterations')
 number_ais = 50
 ais = [AI() for y in range(number_ais)]
 App = game(700,700)
@@ -35,3 +35,7 @@ while iterations > 0:
 
     for z in range(len(ais)):
         ais[z].aiwin = 0
+
+if iterations == -1:
+        ai.aiwin = App.ai_game(ai,True)
+        App.reset(True)
