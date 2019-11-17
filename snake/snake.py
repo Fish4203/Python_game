@@ -18,7 +18,7 @@ class game:
         self.y = [100]
         self.x = [100]
         self.direction = 0
-        self.points = 1
+        self.fitness = 0
         self.speed = 30
         self.size = 30
         self.aiin = []
@@ -44,7 +44,7 @@ class game:
         self.y = [100]
         self.x = [100]
         self.direction = 0
-        self.points = 1
+        self.fitness = 0
         self.speed = 30
         self.size = 30
         self.aiin = []
@@ -62,7 +62,7 @@ class game:
                 self._runing = False
 
     def get_point(self):
-        self.points += 1
+        self.fitness += 10
         self.xobj = random.randint(0,self.xmax - 10)
         self.yobj = random.randint(0,self.ymax - 10)
         self.x.append(self.x[-1])
@@ -125,7 +125,7 @@ class game:
 
         pygame.quit()
 
-    def ai_game(self, ai, draw_game):
+    def ai_game(self, ai, draw_game, fps):
 
                 while self._runing == True:
 
@@ -186,12 +186,17 @@ class game:
                     self.movesremaining -= 1
                     #print(self.movesremaining)
 
+                    # fitness
+                    if ( self.x[0] - self.xobj < 100 or self.x[0] - self.xobj < -100 ) and ( self.y[0] - self.yobj < 100 or self.y[0] - self.yobj < -100 ):
+                        self.fitness += 1
+
+                    # options to draw the game
                     if draw_game == True:
-                        self.render_game(10000)
+                        self.render_game(fps)
                         self.event()
 
                 pygame.quit()
-                return self.points
+                return self.fitness
 
 
 

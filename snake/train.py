@@ -16,8 +16,9 @@ for i in range(number_ais):
     ais[i].train()
 
 while iterations > 0:
+    ais[0].importAI()
     for ai in ais:
-        ai.aiwin = App.ai_game(ai,False)
+        ai.aiwin = App.ai_game(ai,False,10000)
         App.reset(False)
         #print(ai.aiwin)
 
@@ -29,13 +30,12 @@ while iterations > 0:
         ais[i].importAI()
         ais[i].train()
 
-    ais[0].importAI()
-
     iterations -= 1
 
     for z in range(len(ais)):
         ais[z].aiwin = 0
 
+ais[0].importAI()
 if iterations == -1:
-        print(App.ai_game(ais[0],True))
+        print(App.ai_game(ais[0],True,15))
         App.reset(True)
