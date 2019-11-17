@@ -23,7 +23,7 @@ class game:
         self.size = 30
         self.aiin = []
         self.aiout = []
-        self.movesremaining = 25
+        self.movesremaining = 5000
 
     def on_init(self):
         pygame.init()
@@ -47,7 +47,7 @@ class game:
         self.size = 30
         self.aiin = []
         self.aiout = []
-        self.movesremaining = 25
+        self.movesremaining = 5000
 
         if draw_game == True:
             self.on_init()
@@ -142,7 +142,7 @@ class game:
                     elif self.aiout[3] == max(self.aiout): self.direction =3
 
                     if self.tempdirection == self.direction:
-                        self.movesremaining -= 1
+                        self.movesremaining -= 200
 
                     # making other cubes move
                     for i in reversed(range(len(self.x))):
@@ -173,8 +173,11 @@ class game:
                                 if self.x[0] == self.x[i] and self.y[0] == self.y[i]:
                                     print('die')
                                     self._runing = False
-                    if self.movesremaining == 0:
+                    if self.movesremaining < 0:
                         self._runing = False
+
+                    self.movesremaining -= 1
+                    #print(self.movesremaining)
 
                     if draw_game == True:
                         self.render_game(10000)
