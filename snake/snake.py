@@ -47,7 +47,7 @@ class game:
         self.size = 30
         self.aiin = []
         self.aiout = []
-        self.movesremaining = 5000
+        self.movesremaining = 25
 
         if draw_game == True:
             self.on_init()
