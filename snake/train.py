@@ -4,12 +4,13 @@ import pickle
 import operator
 import copy
 
-iterations = 10
+iterations = 1
 number_ais = 50
 ais = [AI() for y in range(number_ais)]
 App = game(700,700)
 App.on_init()
 ais[0].importAI()
+aiwinout = []
 
 for i in range(number_ais):
     ais[i].train()
@@ -21,6 +22,7 @@ while iterations > 0:
         #print(ai.aiwin)
 
     ais.sort(key=operator.attrgetter('aiwin'))
+    print(ais[-1].aiwin)
     ais[-1].exportAI()
 
     for i in range(number_ais):
@@ -31,4 +33,5 @@ while iterations > 0:
 
     iterations -= 1
 
-    print(ais[0].aiwin,)
+    for z in range(len(ais)):
+        ais[z].aiwin = 0
