@@ -21,7 +21,7 @@ while iterations > 0:
 
     for i in range(number_ais):
         for ai in ais:
-            ai.aiwin += App.ai_game(ai,False,10000,i)
+            ai.aiwin += App.ai_game(ai,False,10000,random.random())
             App.reset(False)
             #print(ai.aiwin)
 
@@ -41,4 +41,4 @@ while iterations > 0:
 ais[0].importAI()
 if iterations == 0:
     App.reset(True)
-    print(App.ai_game(ais[0],True,15,random.random()))
+    print(App.ai_game(ais[0],True,1,random.random()))

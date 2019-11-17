@@ -26,6 +26,7 @@ class game:
         self.movesremaining = 10000
         self.tempdirection1 = None
         self.tempdirection2 = None
+        self.paused = False
 
     def on_init(self):
         pygame.init()
@@ -60,6 +61,11 @@ class game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_q:
                 self._runing = False
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.paused == False:
+                self.paused = True
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.paused == True:
+                self.paused = False
 
     def get_point(self):
         self.fitness += 20000
@@ -134,6 +140,10 @@ class game:
 
                 while self._runing == True:
 
+                    while self.paused == True:
+                        self.render_game(fps)
+                        self.event()
+
                     self.aiin.append(self.xobj)
                     self.aiin.append(self.yobj)
 
@@ -146,10 +156,10 @@ class game:
 
                     self.tempdirection2 = self.tempdirection1
                     self.tempdirection1 = self.direction
-                    if self.aiout[0] == max(self.aiout): self.direction = 0
-                    elif self.aiout[1] == max(self.aiout): self.direction = 1
-                    elif self.aiout[2] == max(self.aiout): self.direction = 2
-                    elif self.aiout[3] == max(self.aiout): self.direction =3
+                    if self.aiout[0] == max(self.aiout): self.direction = 0 #s
+                    elif self.aiout[1] == max(self.aiout): self.direction = 1 #w
+                    elif self.aiout[2] == max(self.aiout): self.direction = 2 #d
+                    elif self.aiout[3] == max(self.aiout): self.direction =3 #a
 
                     if self.tempdirection1 == self.direction:
                         self.movesremaining -= 200
