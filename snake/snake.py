@@ -24,6 +24,8 @@ class game:
         self.aiin = []
         self.aiout = []
         self.movesremaining = 5000
+        self.tempdirection1 = None
+        self.tempdirection2 = None
 
     def on_init(self):
         pygame.init()
@@ -48,6 +50,8 @@ class game:
         self.aiin = []
         self.aiout = []
         self.movesremaining = 5000
+        self.tempdirection1 = None
+        self.tempdirection2 = None
 
         if draw_game == True:
             self.on_init()
@@ -135,14 +139,17 @@ class game:
                     self.aiout = ai.evaluate(self.aiin)
                     self.aiin = []
 
-                    self.tempdirection = self.direction
+                    self.tempdirection2 = self.tempdirection1
+                    self.tempdirection1 = self.direction
                     if self.aiout[0] == max(self.aiout): self.direction = 0
                     elif self.aiout[1] == max(self.aiout): self.direction = 1
                     elif self.aiout[2] == max(self.aiout): self.direction = 2
                     elif self.aiout[3] == max(self.aiout): self.direction =3
 
-                    if self.tempdirection == self.direction:
+                    if self.tempdirection1 == self.direction:
                         self.movesremaining -= 200
+                    elif self.tempdirection2 == self.direction:
+                        self.movesremaining -= 50
 
                     # making other cubes move
                     for i in reversed(range(len(self.x))):
