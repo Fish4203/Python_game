@@ -23,7 +23,7 @@ class game:
         self.size = 30
         self.aiin = []
         self.aiout = []
-        self.timeremaining = 5000
+        self.movesremaining = 25
 
     def on_init(self):
         pygame.init()
@@ -47,7 +47,7 @@ class game:
         self.size = 30
         self.aiin = []
         self.aiout = []
-        self.timeremaining = 5000
+        self.movesremaining = 5000
 
         if draw_game == True:
             self.on_init()
@@ -64,7 +64,7 @@ class game:
         self.x.append(self.x[-1])
         self.y.append(self.y[-1])
 
-    def render_game(self):
+    def render_game(self,fps):
         self.screen.fill((0,0,0))
 
         pygame.draw.rect(self.screen, (0, 25, 120), pygame.Rect(self.xobj, self.yobj, self.size, self.size))
@@ -72,10 +72,10 @@ class game:
         for i in range(len(self.x)):
             pygame.draw.rect(self.screen, (255,255,255), pygame.Rect(self.x[i], self.y[i], self.size, self.size))
 
-        self.clock.tick(10000)
+        self.clock.tick(fps)
         pygame.display.flip()
 
-    def play_game(self):
+    def play_game(self,fps):
 
 
         while self._runing == True:
@@ -117,7 +117,7 @@ class game:
                             self._runing = False
 
             self.event()
-            self.render_game()
+            self.render_game(fps)
 
         pygame.quit()
 
@@ -134,10 +134,15 @@ class game:
 
                     self.aiout = ai.evaluate(self.aiin)
                     self.aiin = []
+
+                    self.tempdirection = self.direction
                     if self.aiout[0] == max(self.aiout): self.direction = 0
                     elif self.aiout[1] == max(self.aiout): self.direction = 1
                     elif self.aiout[2] == max(self.aiout): self.direction = 2
                     elif self.aiout[3] == max(self.aiout): self.direction =3
+
+                    if self.tempdirection == self.direction:
+                        self.movesremaining -= 1
 
                     # making other cubes move
                     for i in reversed(range(len(self.x))):
@@ -168,12 +173,11 @@ class game:
                                 if self.x[0] == self.x[i] and self.y[0] == self.y[i]:
                                     print('die')
                                     self._runing = False
-                    if self.timeremaining == 0:
+                    if self.movesremaining == 0:
                         self._runing = False
-                    self.timeremaining -= 1
 
                     if draw_game == True:
-                        self.render_game()
+                        self.render_game(10000)
                         self.event()
 
                 pygame.quit()
@@ -184,7 +188,7 @@ class game:
 if __name__ == "__main__" :
     App = game(700,700)
     App.on_init()
-    App.play_game()
+    App.play_game(15)
 
 
 '''
