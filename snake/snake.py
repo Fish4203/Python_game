@@ -62,7 +62,7 @@ class game:
                 self._runing = False
 
     def get_point(self):
-        self.fitness += 10
+        self.fitness += 20000
         self.xobj = random.randint(0,self.xmax - 10)
         self.yobj = random.randint(0,self.ymax - 10)
         self.x.append(self.x[-1])
@@ -125,7 +125,12 @@ class game:
 
         pygame.quit()
 
-    def ai_game(self, ai, draw_game, fps):
+    def ai_game(self, ai, draw_game, fps, seeds):
+
+                if seeds != None:
+                    random.seed(seeds)
+                    self.xobj = random.randint(0,self.xmax - 10)
+                    self.yobj = random.randint(0,self.ymax - 10)
 
                 while self._runing == True:
 
@@ -149,7 +154,7 @@ class game:
                     if self.tempdirection1 == self.direction:
                         self.movesremaining -= 200
                     elif self.tempdirection2 == self.direction:
-                        self.movesremaining -= 50
+                        self.movesremaining -= 200
 
                     # making other cubes move
                     for i in reversed(range(len(self.x))):
@@ -187,8 +192,19 @@ class game:
                     #print(self.movesremaining)
 
                     # fitness
-                    if ( self.x[0] - self.xobj < 100 or self.x[0] - self.xobj < -100 ) and ( self.y[0] - self.yobj < 100 or self.y[0] - self.yobj < -100 ):
-                        self.fitness += 1
+                    if self.x[0] > self.xobj:
+                        if self.y[0] > self.yobj:
+                            self.fitness -= (self.x[0] - self.xobj) + (self.y[0] - self.yobj)
+                        elif self.y[0] < self.yobj:
+                            self.fitness -= (self.x[0] - self.xobj) + (self.yobj - self.y[0])
+                    elif self.x[0] < self.xobj:
+                            if self.y[0] > self.yobj:
+                                self.fitness -= (self.xobj - self.x[0]) + (self.y[0] - self.yobj)
+                            elif self.y[0] < self.yobj:
+                                self.fitness -= (self.xobj - self.x[0]) + (self.yobj - self.y[0])
+
+                    #if ( self.x[0] - self.xobj < 100 or self.x[0] - self.xobj < -100 ) and ( self.y[0] - self.yobj < 100 or self.y[0] - self.yobj < -100 ):
+                        #self.fitness += 1
 
                     # options to draw the game
                     if draw_game == True:
