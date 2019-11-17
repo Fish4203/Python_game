@@ -68,6 +68,7 @@ class game:
                 self.paused = False
 
     def get_point(self):
+        self.movesremaining += 200
         self.fitness += 20000
         self.xobj = random.randint(0,self.xmax - 10)
         self.yobj = random.randint(0,self.ymax - 10)
@@ -125,6 +126,7 @@ class game:
                         if self.x[0] == self.x[i] and self.y[0] == self.y[i]:
                             print('die')
                             self._runing = False
+                            self.fitness -= 20000
 
             self.event()
             self.render_game(fps)

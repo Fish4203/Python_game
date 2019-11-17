@@ -41,4 +41,4 @@ while iterations > 0:
 ais[0].importAI()
 if iterations == 0:
     App.reset(True)
-    print(App.ai_game(ais[0],True,1,random.random()))
+    print(App.ai_game(ais[0],True,10,random.random()))
