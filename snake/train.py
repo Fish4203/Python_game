@@ -19,16 +19,18 @@ for i in range(number_ais):
 while iterations > 0:
     ais[0].importAI()
 
-    for i in range(number_ais):
-        for ai in ais:
-            ai.aiwin += App.ai_game(ai,False,10000,random.random())
-            App.reset(False)
-            #print(ai.aiwin)
+    
+    for ai in ais:
+        ai.aiwin += App.ai_game(ai,False,10000,None)
+        App.reset(False)
+        #print(ai.aiwin)
 
-        ais.sort(key=operator.attrgetter('aiwin'))
-        ais[-1].exportAI()
+    ais.sort(key=operator.attrgetter('aiwin'))
+    ais[-1].exportAI()
+    
     print(ais[-1].aiwin)
-
+    print(iterations)
+    
     for i in range(number_ais):
         ais[i].importAI()
         ais[i].train()

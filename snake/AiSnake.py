@@ -92,16 +92,16 @@ class AI():
         for i in range(len(self.weight1)):
 
             for j in range(len(self.weight1[i])):
-                self.weight1[i][j] += random.uniform(-0.5,0.5)
+                self.weight1[i][j] += random.uniform(-5,5)
 
         for i in range(len(self.weight2)):
 
             for j in range(len(self.weight2[i])):
-                self.weight2[i][j] += random.uniform(-0.5,0.5)
+                self.weight2[i][j] += random.uniform(-5,5)
 
         for i in range(len(self.weight3)):
             for j in range(len(self.weight3[i])):
-                self.weight3[i][j] += random.uniform(-0.5,0.5)
+                self.weight3[i][j] += random.uniform(-5,5)
 
     def exportAI(self):
         # exports the weights to a txt file
