@@ -51,15 +51,15 @@ class AI():
         #a sneky bit of branch prediction
         if self.neuron1[0] > self.neuron1[2]:
             if self.result[2] > 0:
-                self.result[2] *= 2
+                self.result[2] *= 1.5
             else:
-                self.result[2] /= 2
+                self.result[2] /= 1.5
             #print('d')
         elif self.neuron1[0] < self.neuron1[2]:
             if self.result[3] > 0:
-                self.result[3] *= 2
+                self.result[3] *= 1.5
             else:
-                self.result[3] /= 2
+                self.result[3] /= 1.5
             #print('a')
         if self.neuron1[1] > self.neuron1[3]:
             if self.result[0] > 0:
