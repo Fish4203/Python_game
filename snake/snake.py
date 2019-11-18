@@ -124,7 +124,7 @@ class game:
                 for i in reversed(range(len(self.x))):
                     if i != 0:
                         if self.x[0] == self.x[i] and self.y[0] == self.y[i]:
-                            print('die')
+                            #print('die')
                             self._runing = False
                             self.fitness -= 20000
 
@@ -164,9 +164,9 @@ class game:
                     elif self.aiout[3] == max(self.aiout): self.direction =3 #a
 
                     if self.tempdirection1 == self.direction:
-                        self.movesremaining -= 200
+                        self.movesremaining -= 150
                     elif self.tempdirection2 == self.direction:
-                        self.movesremaining -= 200
+                        self.movesremaining -= 150
 
                     # making other cubes move
                     for i in reversed(range(len(self.x))):
@@ -195,7 +195,7 @@ class game:
                         for i in reversed(range(len(self.x))):
                             if i != 0:
                                 if self.x[0] == self.x[i] and self.y[0] == self.y[i]:
-                                    print('die')
+                                    #print('die')
                                     self._runing = False
                     if self.movesremaining < 0:
                         self._runing = False

@@ -63,15 +63,15 @@ class AI():
             #print('a')
         if self.neuron1[1] > self.neuron1[3]:
             if self.result[0] > 0:
-                self.result[0] *= 2
+                self.result[0] *= 1.5
             else:
-                self.result[0] /= 2
+                self.result[0] /= 1.5
             #print('s')
         elif self.neuron1[1] < self.neuron1[3]:
             if self.result[1] > 0:
-                self.result[1] *= 2
+                self.result[1] *= 1.5
             else:
-                self.result[1] /= 2
+                self.result[1] /= 1.5
             #print('w')
 
         # this just resets the results verable while still returning a value

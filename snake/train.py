@@ -26,8 +26,8 @@ while iterations > 0:
             #print(ai.aiwin)
 
         ais.sort(key=operator.attrgetter('aiwin'))
-        print(ais[-1].aiwin)
         ais[-1].exportAI()
+    print(ais[-1].aiwin)
 
     for i in range(number_ais):
         ais[i].importAI()
