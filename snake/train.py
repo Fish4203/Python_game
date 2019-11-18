@@ -3,6 +3,7 @@ from AiSnake import AI
 import pickle
 import operator
 import copy
+import random
 
 iterations = int(input('iterations'))
 number_ais = 50
@@ -17,14 +18,16 @@ for i in range(number_ais):
 
 while iterations > 0:
     ais[0].importAI()
-    for ai in ais:
-        ai.aiwin = App.ai_game(ai,False,10000)
-        App.reset(False)
-        #print(ai.aiwin)
 
-    ais.sort(key=operator.attrgetter('aiwin'))
+    for i in range(number_ais):
+        for ai in ais:
+            ai.aiwin += App.ai_game(ai,False,10000,random.random())
+            App.reset(False)
+            #print(ai.aiwin)
+
+        ais.sort(key=operator.attrgetter('aiwin'))
+        ais[-1].exportAI()
     print(ais[-1].aiwin)
-    ais[-1].exportAI()
 
     for i in range(number_ais):
         ais[i].importAI()
@@ -36,6 +39,6 @@ while iterations > 0:
         ais[z].aiwin = 0
 
 ais[0].importAI()
-if iterations == -1:
-        print(App.ai_game(ais[0],True,15))
-        App.reset(True)
+if iterations == 0:
+    App.reset(True)
+    print(App.ai_game(ais[0],True,10,random.random()))

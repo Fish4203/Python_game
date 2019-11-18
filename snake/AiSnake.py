@@ -48,6 +48,32 @@ class AI():
                 #print(i,j)
                 self.result[i] += self.neuron3[j] * self.weight3[i][j]
 
+        #a sneky bit of branch prediction
+        if self.neuron1[0] > self.neuron1[2]:
+            if self.result[2] > 0:
+                self.result[2] *= 2
+            else:
+                self.result[2] /= 2
+            #print('d')
+        elif self.neuron1[0] < self.neuron1[2]:
+            if self.result[3] > 0:
+                self.result[3] *= 2
+            else:
+                self.result[3] /= 2
+            #print('a')
+        if self.neuron1[1] > self.neuron1[3]:
+            if self.result[0] > 0:
+                self.result[0] *= 1.5
+            else:
+                self.result[0] /= 1.5
+            #print('s')
+        elif self.neuron1[1] < self.neuron1[3]:
+            if self.result[1] > 0:
+                self.result[1] *= 1.5
+            else:
+                self.result[1] /= 1.5
+            #print('w')
+
         # this just resets the results verable while still returning a value
         # there is a better way of do ing this
         self.resultfinal = self.result
