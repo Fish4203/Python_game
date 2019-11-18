@@ -158,10 +158,17 @@ class game:
 
                     self.tempdirection2 = self.tempdirection1
                     self.tempdirection1 = self.direction
-                    if self.aiout[0] == max(self.aiout): self.direction = 0 #s
-                    elif self.aiout[1] == max(self.aiout): self.direction = 1 #w
-                    elif self.aiout[2] == max(self.aiout): self.direction = 2 #d
-                    elif self.aiout[3] == max(self.aiout): self.direction =3 #a
+
+                    while True:
+                        if self.aiout[0] == max(self.aiout): self.direction = 0 #s
+                        elif self.aiout[1] == max(self.aiout): self.direction = 1 #w
+                        elif self.aiout[2] == max(self.aiout): self.direction = 2 #d
+                        elif self.aiout[3] == max(self.aiout): self.direction =3 #a
+
+                        if (self.direction == 0 and 1 == self.tempdirection1) or (self.direction == 1 and 0 == self.tempdirection1) or (self.direction == 2 and 3 == self.tempdirection1) or (self.direction == 3 and 2 == self.tempdirection1):
+                            self.aiout[self.direction] -= 10000
+                        else:
+                            break
 
                     if self.tempdirection1 == self.direction:
                         self.movesremaining -= 150
