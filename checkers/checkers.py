@@ -5,6 +5,7 @@ import time
 
 
 class game:
+
     def __init__(self,xmax,ymax):
 
         self.xmax = xmax
@@ -14,6 +15,11 @@ class game:
         self.screen = None
         self.keyinput = None
 
+
+        #verables that dont need to be reset
+        self.flat_board = []
+
+        #verables that need to be reset probs
         self.n = 8
         self.size = 100
         self.v1 = 1
@@ -26,10 +32,11 @@ class game:
         self.redy = []
         self.input_status = False
         self.move = []
+        self.fitness = [0, 0]
 
 
         self.board = [[0 for y in range(self.n)] for x in range(self.n)]
-        self.board = [[0, 1, 0, 1, 0, 1, 0, 1],[1, 0, 1, 0, 1, 0, 1, 0],[0, 1, 0, 1, 0, 1, 0, 1],[0, 0, -1, 0, 0, 0, 0, 0],[0, 1, 0, 0, 0, 0, 0, 0],[-1, 0, -1, 0, -1, 0, -1, 0],[0, -1, 0, -1, 0, -1, 0, -1],[-1, 0, -1, 0, -1, 0, -1, 0]]
+        self.board = [[0, 1, 0, 1, 0, 1, 0, 1],[1, 0, 1, 0, 1, 0, 1, 0],[0, 1, 0, 1, 0, 1, 0, 1],[0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0],[-1, 0, -1, 0, -1, 0, -1, 0],[0, -1, 0, -1, 0, -1, 0, -1],[-1, 0, -1, 0, -1, 0, -1, 0]]
 
         for i in range(self.n):
             if (i % 2) == 0:
@@ -51,6 +58,24 @@ class game:
         self.screen = None
         self.keyinput = None
 
+        # verables that probebly need to be reset
+        self.n = 8
+        self.size = 100
+        self.v1 = 1
+        self.v2 = 2
+        self.xbackground = []
+        self.ybackground = []
+        self.bluex = []
+        self.bluey = []
+        self.redx = []
+        self.redy = []
+        self.input_status = False
+        self.move = []
+        self.fitness = [0, 0]
+
+        self.board = [[0 for y in range(self.n)] for x in range(self.n)]
+        self.board = [[0, 1, 0, 1, 0, 1, 0, 1],[1, 0, 1, 0, 1, 0, 1, 0],[0, 1, 0, 1, 0, 1, 0, 1],[0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0],[-1, 0, -1, 0, -1, 0, -1, 0],[0, -1, 0, -1, 0, -1, 0, -1],[-1, 0, -1, 0, -1, 0, -1, 0]]
+
         if draw_game == True:
             self.on_init()
 
@@ -58,6 +83,18 @@ class game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_q:
                 self._runing = False
+
+    def return_board(self):
+        for i in self.board:
+            for j in i:
+                self.flat_board.append(j)
+
+        self.flat_board_out = copy.copy(self.flat_board)
+        self.flat_board = []
+        return self.flat_board_out
+
+    def return_fitness(self):
+        return self.fitness
 
     def render_game(self,fps):
 
@@ -97,9 +134,36 @@ class game:
     def make_move(self, move):
 
         self.movefiltered = []
-        for i in range(len(move)):
-            self.movefiltered.append(int(self.move[i]))
-        print([y for y in self.movefiltered])
+
+        if len(move) == 4:
+            for i in range(len(move)):
+                self.movefiltered.append(int(move[i]))
+            #print([y for y in self.movefiltered])
+        else:
+            for i in range(2):
+                self.movefiltered.append(int(move[i]))
+
+            if move[2] == 0:
+                self.movefiltered.append(move[0] + self.v1)
+                self.movefiltered.append(move[1] + 1)
+            elif move[2] == 1:
+                self.movefiltered.append(move[0] + self.v1)
+                self.movefiltered.append(move[1] - 1)
+            elif move[2] == 2:
+                self.movefiltered.append(move[0] + self.v2)
+                self.movefiltered.append(move[1] + 2)
+            elif move[2] == 3:
+                self.movefiltered.append(move[0] + self.v2)
+                self.movefiltered.append(move[1] - 2)
+            else:
+                self.movefiltered.append(0)
+                self.movefiltered.append(0)
+
+            if self.movefiltered[2] > 7 or self.movefiltered[2] < 0 or self.movefiltered[3] > 7 or self.movefiltered[3] < 0:
+                self.movefiltered[2] = 0
+                self.movefiltered[3] = 0
+            #print(self.movefiltered[3], self.movefiltered[2])
+
 
         # test ing if the first peace is a 1
         if self.board[self.movefiltered[0]][self.movefiltered[1]] == 1:
@@ -116,6 +180,12 @@ class game:
                         self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
                         self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
 
+                        # adding self.fitness
+                        if self.v1 == 1:
+                            self.fitness[0] += 1
+                        else:
+                            self.fitness[1] += 1
+
                 elif self.movefiltered[2] == (self.movefiltered[0] + self.v2): # 2tiles ahed
                     #print('2 ahed')
                     if self.movefiltered[1] == (self.movefiltered[3] + 2):
@@ -128,6 +198,14 @@ class game:
                             self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
                             self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] + 1] = 0
 
+                            # adding self.fitness
+                            if self.v1 == 1:
+                                self.fitness[0] += 10
+                                self.fitness[1] -= 5
+                            else:
+                                self.fitness[1] += 10
+                                self.fitness[0] -= 5
+
 
                     elif self.movefiltered[1] == (self.movefiltered[3] - 2):
                         #print('+2 x')
@@ -138,6 +216,14 @@ class game:
                             self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
                             self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
                             self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - 1] = 0
+
+                            # adding self.fitness
+                            if self.v1 == 1:
+                                self.fitness[0] += 10
+                                self.fitness[1] -= 5
+                            else:
+                                self.fitness[1] += 10
+                                self.fitness[0] -= 5
 
         # swaping v1
         if self.v1 == -1:
@@ -166,9 +252,9 @@ class game:
 
         while self._runing == True:
 
-            # player input 
+            # player input
             if pygame.mouse.get_pressed()[0] == 1:
-                print(int(pygame.mouse.get_pos()[1] / 100),int(pygame.mouse.get_pos()[0] / 100))
+                #print(int(pygame.mouse.get_pos()[1] / 100),int(pygame.mouse.get_pos()[0] / 100))
                 self.move.append(int(pygame.mouse.get_pos()[1] / 100))
                 self.move.append(int(pygame.mouse.get_pos()[0] / 100))
                 time.sleep(0.5)
@@ -185,7 +271,6 @@ class game:
             self.render_game(fps)
 
         pygame.quit()
-
 
 
 if __name__ == "__main__" :
