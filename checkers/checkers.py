@@ -1,6 +1,7 @@
 import pygame
 import random
 import copy
+import time
 
 
 class game:
@@ -23,6 +24,8 @@ class game:
         self.bluey = []
         self.redx = []
         self.redy = []
+        self.input_status = False
+        self.move = []
 
 
         self.board = [[0 for y in range(self.n)] for x in range(self.n)]
@@ -100,53 +103,41 @@ class game:
 
         # test ing if the first peace is a 1
         if self.board[self.movefiltered[0]][self.movefiltered[1]] == 1:
-            print('selected a valid peace')
+            #print('selected a valid peace')
 
             # checking that the place you want to move to is a 0
-            if self.board[self.movefiltered[2]][self.movefiltered[2]] == 0:
-                print('target is empty')
+            if self.board[self.movefiltered[2]][self.movefiltered[3]] == 0:
+                #print('target is empty')
 
                 # checks if the move is one or 2 tiles ahed
                 if self.movefiltered[2] == (self.movefiltered[0] + self.v1): # one tile ahed
+                    #print('one ahed')
                     if self.movefiltered[1] == (self.movefiltered[3] + 1) or self.movefiltered[1] == (self.movefiltered[3] - 1): # checks if it is one tile across in eithe direction
                         self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
                         self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
-                        self.board = copy.deepcopy(self.board)
 
                 elif self.movefiltered[2] == (self.movefiltered[0] + self.v2): # 2tiles ahed
-                    if self.movefiltered[1] == (self.movefiltered[3] + 2) and self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - self.v1] == -1:
-                        self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
-                        self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
-                        print(self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - self.v1])
-                        self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - self.v1] = 0
-                        self.board = copy.deepcopy(self.board)
+                    #print('2 ahed')
+                    if self.movefiltered[1] == (self.movefiltered[3] + 2):
+                        #print('-2 x')
+                        #print(self.movefiltered[2] - self.v1, self.movefiltered[3] + 1)
+                        if self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] + 1] == -1:
+                            #print('making move')
 
-                    elif self.movefiltered[1] == (self.movefiltered[3] - 2) and self.board[self.movefiltered[2] + self.v1][self.movefiltered[3] + self.v1] == -1:
-                        self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
-                        self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
-                        print(self.board[self.movefiltered[2] + self.v1][self.movefiltered[3] + self.v1])
-                        self.board[self.movefiltered[2] + self.v1][self.movefiltered[3] + self.v1] = 0
-                        print(self.board[self.movefiltered[2] + self.v1][self.movefiltered[3] + self.v1])
-                        self.board = copy.deepcopy(self.board)
+                            self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
+                            self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
+                            self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] + 1] = 0
 
-            print(self.board[3][2])
-            # a loop to iterate through all the posable moves
-            #for moves in range(int( len(self.movefiltered) / 2 )):
-                # this dosent work if the loop is = 0
-                #if moves != 0:
-                        #if self.movefiltered[(moves*2)] == (self.movefiltered[(moves*2 - 2)] + self.v1) and ( self.movefiltered[(moves*2 + 1)] == (self.movefiltered[(moves*2 - 1)] - 1) or self.movefiltered[(moves*2 + 1)] == (self.movefiltered[(moves*2 - 1)] + 1) ):
-                            #self.board[self.movefiltered[-2]][self.movefiltered[-1]] = 1
-                            #self.board[self.movefiltered[0]][self.movefiltered[1]] = 0
 
-                        #elif self.movefiltered[(moves*2)] == (self.movefiltered[(moves*2 - 2)] + self.v2) and ( ( self.movefiltered[(moves*2 + 1)] == (self.movefiltered[(moves*2 - 1)] - 2) and self.board[self.movefiltered[(moves*2)] - 1][self.movefiltered[(moves*2 + 1)] - 1] == -1 ) or ( self.movefiltered[(moves*2 + 1)] == (self.movefiltered[(moves*2 - 1)] + 2) and self.board[self.movefiltered[(moves*2)] - 1][self.movefiltered[(moves*2 + 1)] - 1] == -1 ) ):
+                    elif self.movefiltered[1] == (self.movefiltered[3] - 2):
+                        #print('+2 x')
+                        #print(self.movefiltered[2] - self.v1, self.movefiltered[3] - 1)
+                        if self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - 1] == -1:
+                            #print('making move')
 
-                            #self.board[self.movefiltered[-2]][self.movefiltered[-1]] = 1
-                            #self.board[self.movefiltered[0]][self.movefiltered[1]] = 0
-
-                            #if self.board[self.movefiltered[(moves*2)] - 1][self.movefiltered[(moves*2 + 1)] - 1] == -1:
-                                #self.board[self.movefiltered[(moves*2)] - 1][self.movefiltered[(moves*2 + 1)] - 1] = 0
-                            #else:
-                                #self.board[self.movefiltered[(moves*2)] - 1][self.movefiltered[(moves*2 + 1)] + 1] = 0
+                            self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
+                            self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
+                            self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - 1] = 0
 
         # swaping v1
         if self.v1 == -1:
@@ -168,23 +159,27 @@ class game:
                 elif self.board[i][j] == -1:
                     self.board[i][j] = 1
 
+        self.move = []
+
     def play_game(self,fps):
 
 
         while self._runing == True:
 
-            # gets the user input and changes the direction
-            self.keyinput = pygame.key.get_pressed()
+            # player input 
+            if pygame.mouse.get_pressed()[0] == 1:
+                print(int(pygame.mouse.get_pos()[1] / 100),int(pygame.mouse.get_pos()[0] / 100))
+                self.move.append(int(pygame.mouse.get_pos()[1] / 100))
+                self.move.append(int(pygame.mouse.get_pos()[0] / 100))
+                time.sleep(0.5)
 
-            # making other cubes move
-            self.move = input('make a move')
-            self.move = self.move.split(',')
 
-            self.make_move(self.move)
+            if len(self.move) == 4:
+                self.make_move(self.move)
 
-            print('########################')
-            for i in range(self.n):
-                print([y for y in self.board[i]])
+            #print('########################')
+            #for i in range(self.n):
+                #print([y for y in self.board[i]])
 
             self.event()
             self.render_game(fps)
