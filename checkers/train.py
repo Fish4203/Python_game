@@ -17,7 +17,10 @@ App.reset(False)
 #print(App.return_board(), App.fitness[0], App.fitness[1])
 
 while iterations > 0:
-    
+
+    aitop[0].importAI('top')
+    aibottom[0].importAI('bottom')
+
     for aj in range(n):
         for ai in range(n):
             for turn in range(200):
@@ -44,6 +47,8 @@ while iterations > 0:
         aibottom[i].importAI('bottom')
         aitop[i].train()
         aibottom[i].train()
+        aitop[i].aiwin = 0
+        aibottom[i].aiwin = 0
 
     iterations -= 1
 
