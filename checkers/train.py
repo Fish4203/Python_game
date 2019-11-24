@@ -9,10 +9,12 @@ iterations = int(input('iterations'))
 n = 50
 aitop = [AI() for y in range(n)]
 aibottom = [AI() for y in range(n)]
+render = False
+fps = 15
 
 App = game(800,800)
 #App.on_init()
-App.reset(False)
+App.reset(render)
 
 #print(App.return_board(), App.fitness[0], App.fitness[1])
 
@@ -23,15 +25,19 @@ while iterations > 0:
 
     for aj in range(n):
         for ai in range(n):
-            for turn in range(200):
-                App.make_move([y for y in aitop[ai].evaluate(App.return_board())])
+            for turn in range(100):
+                App.make_move([y for y in aitop[ai].evaluate(App.return_board(False))])
                 #print([y for y in aitop[ai].evaluate(App.return_board())])
-                App.make_move([y for y in aibottom[aj].evaluate(App.return_board())])
+                App.make_move([y for y in aibottom[aj].evaluate(App.return_board(False))])
                 #print([y for y in aibottom[aj].evaluate(App.return_board())])
+                if render == True:
+                    App.event()
+                    App.render_game(fps)
+                    print(turn)
             aitop[ai].aiwin += App.return_fitness()[0]
             aibottom[aj].aiwin += App.return_fitness()[1]
             print(aitop[ai].aiwin, aibottom[aj].aiwin)
-            App.reset(False)
+            App.reset(render)
             #print(ai.aiwin)
 
     aitop.sort(key=operator.attrgetter('aiwin'))
@@ -51,6 +57,28 @@ while iterations > 0:
         aibottom[i].aiwin = 0
 
     iterations -= 1
+
+if iterations == 0:
+    App.reset(True)
+
+    top = AI()
+    bottom = AI()
+    top.importAI('top')
+    bottom.importAI('bottom')
+
+    #App.return_board(True)
+
+    for turn in range(200):
+        #print([y for y in top.evaluate(App.return_board(False))])
+        App.make_move([y for y in top.evaluate(App.return_board(False))])
+
+        #print([y for y in bottom.evaluate(App.return_board(False))])
+        App.make_move([y for y in bottom.evaluate(App.return_board(False))])
+
+
+        App.event()
+        App.render_game(fps)
+        print(turn)
 
     #for z in range(len(ais)):
         #ais[z].aiwin = 0

@@ -76,6 +76,14 @@ class game:
         self.board = [[0 for y in range(self.n)] for x in range(self.n)]
         self.board = [[0, 1, 0, 1, 0, 1, 0, 1],[1, 0, 1, 0, 1, 0, 1, 0],[0, 1, 0, 1, 0, 1, 0, 1],[0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0],[-1, 0, -1, 0, -1, 0, -1, 0],[0, -1, 0, -1, 0, -1, 0, -1],[-1, 0, -1, 0, -1, 0, -1, 0]]
 
+        for i in range(self.n):
+            if (i % 2) == 0:
+                self.xbackground.append([0,200,400,600])
+                self.ybackground.append(i*100)
+            else:
+                self.xbackground.append([100,300,500,700])
+                self.ybackground.append(i*100)
+
         if draw_game == True:
             self.on_init()
 
@@ -84,7 +92,12 @@ class game:
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_q:
                 self._runing = False
 
-    def return_board(self):
+    def return_board(self, generate):
+        if generate == True:
+            for i in range(self.n):
+                for j in range(self.n):
+                    self.board[i][j] = random.randint(-1,1)
+
         for i in self.board:
             for j in i:
                 self.flat_board.append(j)
@@ -139,6 +152,69 @@ class game:
             for i in range(len(move)):
                 self.movefiltered.append(int(move[i]))
             #print([y for y in self.movefiltered])
+
+            ########## mAKING MOVE ########
+            # test ing if the first peace is a 1
+            if self.board[self.movefiltered[0]][self.movefiltered[1]] == 1:
+                #print('selected a valid peace')
+
+                # checking that the place you want to move to is a 0
+                if self.board[self.movefiltered[2]][self.movefiltered[3]] == 0:
+                    #print('target is empty')
+
+                    # checks if the move is one or 2 tiles ahed
+                    if self.movefiltered[2] == (self.movefiltered[0] + self.v1): # one tile ahed
+                        #print('one ahed')
+                        if self.movefiltered[1] == (self.movefiltered[3] + 1) or self.movefiltered[1] == (self.movefiltered[3] - 1): # checks if it is one tile across in eithe direction
+                            self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
+                            self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
+
+                            # adding self.fitness
+                            if self.v1 == 1:
+                                self.fitness[0] += 1
+                            else:
+                                self.fitness[1] += 1
+
+                    elif self.movefiltered[2] == (self.movefiltered[0] + self.v2): # 2tiles ahed
+                        #print('2 ahed')
+                        if self.movefiltered[1] == (self.movefiltered[3] + 2):
+                            #print('-2 x')
+                            #print(self.movefiltered[2] - self.v1, self.movefiltered[3] + 1)
+                            if self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] + 1] == -1:
+                                #print('making move')
+
+                                self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
+                                self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
+                                self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] + 1] = 0
+                                
+                                # adding self.fitness
+                                if self.v1 == 1:
+                                    self.fitness[0] += 10
+                                    self.fitness[1] -= 5
+                                else:
+                                    self.fitness[1] += 10
+                                    self.fitness[0] -= 5
+
+
+                        elif self.movefiltered[1] == (self.movefiltered[3] - 2):
+                            #print('+2 x')
+                            #print(self.movefiltered[2] - self.v1, self.movefiltered[3] - 1)
+                            if self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - 1] == -1:
+                                #print('making move')
+
+                                self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
+                                self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
+                                self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - 1] = 0
+
+                                # adding self.fitness
+                                if self.v1 == 1:
+                                    self.fitness[0] += 10
+                                    self.fitness[1] -= 5
+                                else:
+                                    self.fitness[1] += 10
+                                    self.fitness[0] -= 5
+            #######DONE MOVE######
+
         else:
             for i in range(2):
                 self.movefiltered.append(int(move[i]))
@@ -162,21 +238,21 @@ class game:
             if self.movefiltered[2] > 7 or self.movefiltered[2] < 0 or self.movefiltered[3] > 7 or self.movefiltered[3] < 0:
                 self.movefiltered[2] = 0
                 self.movefiltered[3] = 0
-            #print(self.movefiltered[3], self.movefiltered[2])
+            #print(self.movefiltered[0], self.movefiltered[1],self.movefiltered[2],self.movefiltered[3])
 
+            ########## mAKING MOVE ########
+            # test ing if the first peace is a 1
+            if self.board[self.movefiltered[0]][self.movefiltered[1]] == 1:
+                #print('selected a valid peace')
 
-        # test ing if the first peace is a 1
-        if self.board[self.movefiltered[0]][self.movefiltered[1]] == 1:
-            #print('selected a valid peace')
+                # checking that the place you want to move to is a 0
+                if self.board[self.movefiltered[2]][self.movefiltered[3]] == 0:
+                    #print('target is empty')
 
-            # checking that the place you want to move to is a 0
-            if self.board[self.movefiltered[2]][self.movefiltered[3]] == 0:
-                #print('target is empty')
+                    # checks if the move is one or 2 tiles ahed
+                    if move[2] == 0 or move[2] == 1: # one tile ahed
+                        #print('one ahed')
 
-                # checks if the move is one or 2 tiles ahed
-                if self.movefiltered[2] == (self.movefiltered[0] + self.v1): # one tile ahed
-                    #print('one ahed')
-                    if self.movefiltered[1] == (self.movefiltered[3] + 1) or self.movefiltered[1] == (self.movefiltered[3] - 1): # checks if it is one tile across in eithe direction
                         self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
                         self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
 
@@ -186,9 +262,7 @@ class game:
                         else:
                             self.fitness[1] += 1
 
-                elif self.movefiltered[2] == (self.movefiltered[0] + self.v2): # 2tiles ahed
-                    #print('2 ahed')
-                    if self.movefiltered[1] == (self.movefiltered[3] + 2):
+                    elif move[2] == 3: # 2tiles ahed
                         #print('-2 x')
                         #print(self.movefiltered[2] - self.v1, self.movefiltered[3] + 1)
                         if self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] + 1] == -1:
@@ -206,8 +280,7 @@ class game:
                                 self.fitness[1] += 10
                                 self.fitness[0] -= 5
 
-
-                    elif self.movefiltered[1] == (self.movefiltered[3] - 2):
+                    elif move[2] == 2: # 2tiles ahed
                         #print('+2 x')
                         #print(self.movefiltered[2] - self.v1, self.movefiltered[3] - 1)
                         if self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] - 1] == -1:
@@ -224,6 +297,9 @@ class game:
                             else:
                                 self.fitness[1] += 10
                                 self.fitness[0] -= 5
+            #######DONE MOVE######
+
+
 
         # swaping v1
         if self.v1 == -1:
