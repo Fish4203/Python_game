@@ -96,8 +96,11 @@ class game:
         if generate == True:
             for i in range(self.n):
                 for j in range(self.n):
-                    self.board[i][j] = random.randint(-1,1)
-
+                    if (i % 2) == 0 and (j % 2) == 1:
+                        self.board[i][j] = random.randint(-1,1)
+                    elif (i % 2) == 1 and (j % 2) == 0:
+                        self.board[i][j] = random.randint(-1,1)
+                        
         for i in self.board:
             for j in i:
                 self.flat_board.append(j)
@@ -186,7 +189,7 @@ class game:
                                 self.board[self.movefiltered[2]][self.movefiltered[3]] = 1 # places the peace in the spot it is ment to go
                                 self.board[self.movefiltered[0]][self.movefiltered[1]] = 0 # removes the peace from the starting spot
                                 self.board[self.movefiltered[2] - self.v1][self.movefiltered[3] + 1] = 0
-                                
+
                                 # adding self.fitness
                                 if self.v1 == 1:
                                     self.fitness[0] += 10

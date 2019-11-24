@@ -10,7 +10,7 @@ n = 50
 aitop = [AI() for y in range(n)]
 aibottom = [AI() for y in range(n)]
 render = False
-fps = 15
+fps = 10
 
 App = game(800,800)
 #App.on_init()
@@ -66,7 +66,7 @@ if iterations == 0:
     top.importAI('top')
     bottom.importAI('bottom')
 
-    #App.return_board(True)
+    App.return_board(True)
 
     for turn in range(200):
         #print([y for y in top.evaluate(App.return_board(False))])
@@ -78,12 +78,53 @@ if iterations == 0:
 
         App.event()
         App.render_game(fps)
-        print(turn)
+        print(turn, [x for x in App.return_fitness()])
 
     #for z in range(len(ais)):
         #ais[z].aiwin = 0
 
+while iterations < 0:
 
+    aitop[0].importAI('top')
+    aibottom[0].importAI('bottom')
+
+    for aj in range(n):
+        for ai in range(n):
+            App.return_board(True)
+
+            for turn in range(10):
+                App.make_move([y for y in aitop[ai].evaluate(App.return_board(False))])
+                #print([y for y in aitop[ai].evaluate(App.return_board())])
+                App.make_move([y for y in aibottom[aj].evaluate(App.return_board(False))])
+                #print([y for y in aibottom[aj].evaluate(App.return_board())])
+                if render == True:
+                    App.event()
+                    App.render_game(fps)
+                    print(turn)
+
+            aitop[ai].aiwin += App.return_fitness()[0]
+            aibottom[aj].aiwin += App.return_fitness()[1]
+            print(aitop[ai].aiwin, aibottom[aj].aiwin)
+            App.reset(render)
+            #print(ai.aiwin)
+
+    aitop.sort(key=operator.attrgetter('aiwin'))
+    aibottom.sort(key=operator.attrgetter('aiwin'))
+    aitop[-1].exportAI('top')
+    aibottom[-1].exportAI('bottom')
+
+    print(aitop[-1].aiwin, aibottom[-1].aiwin)
+    print(iterations)
+
+    for i in range(n):
+        aitop[i].importAI('top')
+        aibottom[i].importAI('bottom')
+        aitop[i].train()
+        aibottom[i].train()
+        aitop[i].aiwin = 0
+        aibottom[i].aiwin = 0
+
+    iterations += 1
 
 
 
