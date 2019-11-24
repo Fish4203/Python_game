@@ -60,8 +60,8 @@ while iterations > 0:
 
 while iterations < 0:
 
-    aitop[0].importAI('top')
-    aibottom[0].importAI('bottom')
+    aitop[0].importAI('top1')
+    aibottom[0].importAI('bottom1')
 
     for aj in range(n):
         for ai in range(n):
@@ -92,8 +92,8 @@ while iterations < 0:
     print(iterations)
 
     for i in range(n):
-        aitop[i].importAI('top')
-        aibottom[i].importAI('bottom')
+        aitop[i].importAI('top1')
+        aibottom[i].importAI('bottom1')
         aitop[i].train()
         aibottom[i].train()
         aitop[i].aiwin = 0
