@@ -109,7 +109,7 @@ if iterations == 0:
     top.importAI('top')
     bottom.importAI('bottom')
 
-    App.return_board(True)
+    #App.return_board(True)
 
     for turn in range(200):
         #print([y for y in top.evaluate(App.return_board(False))])
