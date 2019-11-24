@@ -58,31 +58,6 @@ while iterations > 0:
 
     iterations -= 1
 
-if iterations == 0:
-    App.reset(True)
-
-    top = AI()
-    bottom = AI()
-    top.importAI('top')
-    bottom.importAI('bottom')
-
-    App.return_board(True)
-
-    for turn in range(200):
-        #print([y for y in top.evaluate(App.return_board(False))])
-        App.make_move([y for y in top.evaluate(App.return_board(False))])
-
-        #print([y for y in bottom.evaluate(App.return_board(False))])
-        App.make_move([y for y in bottom.evaluate(App.return_board(False))])
-
-
-        App.event()
-        App.render_game(fps)
-        print(turn, [x for x in App.return_fitness()])
-
-    #for z in range(len(ais)):
-        #ais[z].aiwin = 0
-
 while iterations < 0:
 
     aitop[0].importAI('top')
@@ -110,8 +85,8 @@ while iterations < 0:
 
     aitop.sort(key=operator.attrgetter('aiwin'))
     aibottom.sort(key=operator.attrgetter('aiwin'))
-    aitop[-1].exportAI('top')
-    aibottom[-1].exportAI('bottom')
+    aitop[-1].exportAI('top1')
+    aibottom[-1].exportAI('bottom1')
 
     print(aitop[-1].aiwin, aibottom[-1].aiwin)
     print(iterations)
@@ -126,7 +101,30 @@ while iterations < 0:
 
     iterations += 1
 
+if iterations == 0:
+    App.reset(True)
 
+    top = AI()
+    bottom = AI()
+    top.importAI('top')
+    bottom.importAI('bottom')
+
+    App.return_board(True)
+
+    for turn in range(200):
+        #print([y for y in top.evaluate(App.return_board(False))])
+        App.make_move([y for y in top.evaluate(App.return_board(False))])
+
+        #print([y for y in bottom.evaluate(App.return_board(False))])
+        App.make_move([y for y in bottom.evaluate(App.return_board(False))])
+
+
+        App.event()
+        App.render_game(fps)
+        print(turn, [x for x in App.return_fitness()])
+
+    #for z in range(len(ais)):
+        #ais[z].aiwin = 0
 
 
 
