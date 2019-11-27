@@ -3,6 +3,8 @@ import random
 from PySide2 import QtCore, QtWidgets, QtGui
 from checkers.checkers import game as ch
 from snake.snake import game as sn
+#from sanke.AiSnake import AI as sai
+from checkers.AiCheckers import AI as cai
 
 class MyWidget(QtWidgets.QWidget):
     def __init__(self):
@@ -12,6 +14,7 @@ class MyWidget(QtWidgets.QWidget):
         App = sn(700,700)
         App.on_init()
 
+        ai = sai()
 
 
         App.ai_game(ai,True,10,None)
@@ -26,8 +29,8 @@ class MyWidget(QtWidgets.QWidget):
 
         App.reset(True)
 
-        top = AI()
-        bottom = AI()
+        top = cai()
+        bottom = cai()
         top.importAI('top')
         bottom.importAI('bottom')
 
