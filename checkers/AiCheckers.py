@@ -1,7 +1,16 @@
 import random
 import pickle
+import math
+
+# other stuff not ai
+def sigmoid(input_num):
+    return 1 / (1 + math.exp(-input_num))
 
 
+
+
+
+# ai class
 class AI():
 
     aiwin = 0
@@ -10,7 +19,8 @@ class AI():
 
         # i define the verables used
         self.outputlayers = 20 # the number of outputs
-        self.n = 64 # this is the size of the grid
+        self.n = 16 # number of neurons
+        self.input_size = 64
         self.nroot = 8
         self.result = [0 for y in range(self.outputlayers)]
         self.resulttemp = [[0 for y in range(self.nroot)] for x in range(3)]
@@ -18,18 +28,19 @@ class AI():
         # theses are the neurons and weights
         self.neuron1 = []
         #self.neuron1 = [0 for x in range(self.n)]
-        self.neuron2 = [0 for y in range(self.n)]
-        self.neuron3 = [0 for y in range(self.n)]
-        self.weight1 = [[random.uniform(1,-1) for x in range(self.n)] for y in range(self.n)]
-        self.weight2 = [[random.uniform(1,-1) for x in range(self.n)] for y in range(self.n)]
-        self.weight3 = [[random.uniform(1,-1) for x in range(self.n)] for y in range(self.outputlayers)]
+        self.neuron2 = [0 for y in range(self.input_size)]
+        self.neuron3 = [0 for y in range(self.input_size)]
+        self.weight1 = [[random.uniform(1,-1) for x in range(self.input_size)] for y in range(self.n)]
+        self.weight2 = [[random.uniform(1,-1) for x in range(self.input_size)] for y in range(self.n)]
+        self.weight3 = [[random.uniform(1,-1) for x in range(self.input_size)] for y in range(self.outputlayers)]
 
 
 
     def evaluate(self, input1):
 
         # importing the list from the program
-        self.neuron1 = input1
+        for i in range(len(input1)):
+            self.neuron1.append(input1[i])
 
         # the first dense layer of the neural net
         for i in range(self.n):
@@ -37,11 +48,15 @@ class AI():
                 #print(i,j)
                 self.neuron2[i] += self.neuron1[j] * self.weight1[i][j]
 
+            self.neuron2[i] = sigmoid(self.neuron2[i])
+
         # a second dense layer of the neural net this is unused
         for i in range(self.n):
             for j in range(self.n):
                 #print(i,j)
                 self.neuron3[i] += self.neuron2[j] * self.weight2[i][j]
+
+            self.neuron3[i] = sigmoid(self.neuron3[i])
 
         #self.neuron3 = self.neuron2
 

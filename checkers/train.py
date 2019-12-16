@@ -20,8 +20,8 @@ App.reset(render)
 
 while iterations > 0:
 
-    aitop[0].importAI('top')
-    aibottom[0].importAI('bottom')
+    #aitop[0].importAI('top')
+    #aibottom[0].importAI('bottom')
 
     for aj in range(n):
         for ai in range(n):
