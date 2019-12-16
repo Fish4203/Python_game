@@ -100,7 +100,7 @@ class game:
                         self.board[i][j] = random.randint(-1,1)
                     elif (i % 2) == 1 and (j % 2) == 0:
                         self.board[i][j] = random.randint(-1,1)
-                        
+
         for i in self.board:
             for j in i:
                 self.flat_board.append(j)
@@ -235,10 +235,14 @@ class game:
                 self.movefiltered.append(move[0] + self.v2)
                 self.movefiltered.append(move[1] - 2)
             else:
+                self.movefiltered[0] = 0
+                self.movefiltered[1] = 0
                 self.movefiltered.append(0)
                 self.movefiltered.append(0)
 
             if self.movefiltered[2] > 7 or self.movefiltered[2] < 0 or self.movefiltered[3] > 7 or self.movefiltered[3] < 0:
+                self.movefiltered[0] = 0
+                self.movefiltered[1] = 0
                 self.movefiltered[2] = 0
                 self.movefiltered[3] = 0
             #print(self.movefiltered[0], self.movefiltered[1],self.movefiltered[2],self.movefiltered[3])
