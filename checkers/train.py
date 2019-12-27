@@ -1,5 +1,5 @@
 from checkers import game
-from AiCheckers import AI
+from AiCheckers_v2 import AI
 import pickle
 import operator
 import copy
@@ -7,8 +7,8 @@ import random
 
 iterations = int(input('iterations'))
 n = 50
-aitop = [AI() for y in range(n)]
-aibottom = [AI() for y in range(n)]
+aitop = [AI(16,20) for y in range(n)]
+aibottom = [AI(16,20) for y in range(n)]
 render = False
 fps = 10
 
@@ -26,9 +26,10 @@ while iterations > 0:
     for aj in range(n):
         for ai in range(n):
             for turn in range(100):
-                App.make_move([y for y in aitop[ai].evaluate(App.return_board(False))])
-                #print([y for y in aitop[ai].evaluate(App.return_board())])
-                App.make_move([y for y in aibottom[aj].evaluate(App.return_board(False))])
+                App.make_move([int(y) for y in aitop[ai].evaluate(App.return_board(False))])
+                #print(aitop[ai].evaluate(App.return_board(False)))
+
+                App.make_move([int(y) for y in aibottom[aj].evaluate(App.return_board(False))])
                 #print([y for y in aibottom[aj].evaluate(App.return_board())])
                 if render == True:
                     App.event()
@@ -51,8 +52,8 @@ while iterations > 0:
     for i in range(n):
         aitop[i].importAI('top')
         aibottom[i].importAI('bottom')
-        aitop[i].train()
-        aibottom[i].train()
+        aitop[i].train(1)
+        aibottom[i].train(1)
         aitop[i].aiwin = 0
         aibottom[i].aiwin = 0
 
@@ -94,8 +95,8 @@ while iterations < 0:
     for i in range(n):
         aitop[i].importAI('top1')
         aibottom[i].importAI('bottom1')
-        aitop[i].train()
-        aibottom[i].train()
+        aitop[i].train(1)
+        aibottom[i].train(1)
         aitop[i].aiwin = 0
         aibottom[i].aiwin = 0
 
@@ -104,8 +105,8 @@ while iterations < 0:
 if iterations == 0:
     App.reset(True)
 
-    top = AI()
-    bottom = AI()
+    top = AI(16,20)
+    bottom = AI(16,20)
     top.importAI('top')
     bottom.importAI('bottom')
 
