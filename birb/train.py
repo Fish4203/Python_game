@@ -1,6 +1,7 @@
 from birb import *
 from AiBirb_v2 import *
 import random
+import operator
 
 iterations = int(input())
 
@@ -17,6 +18,7 @@ App.on_init()
     #print(i)
 
 while iterations > 0:
+    ais[0].importAI()
 
     for i in range(aisn):
         while running == True:
@@ -30,5 +32,15 @@ while iterations > 0:
         print(ais[i].aiwin)
         running = True
         App.reset(render)
+
+    ais.sort(key=operator.attrgetter('aiwin'))
+    ais[-1].exportAI()
+
+    print(ais[-1].aiwin, iterations)
+
+    for i in range(aisn):
+        ais[i].importAI()
+        ais[i].train(1)
+        ais[i].aiwin = 0
 
     iterations -= 1
