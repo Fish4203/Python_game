@@ -7,9 +7,9 @@ iterations = int(input())
 
 aisn = 100
 running = True
-render = False
-fps = 10000
-ais = [AI(7,2) for i in range(aisn)]
+render = True
+fps = 10
+ais = [AI(7,16,2) for i in range(aisn)]
 
 App = game(800,800)
 App.on_init()
@@ -22,6 +22,7 @@ while iterations > 0:
 
     for i in range(aisn):
         while running == True:
+            print(App.get_vals())
             if ais[i].evaluate(App.get_vals())[0] > ais[i].evaluate(App.get_vals())[1]: App.movement(True)
             else: App.movement(False)
             running = App.colisions()
@@ -29,7 +30,8 @@ while iterations > 0:
             if render: App.render_game(fps)
 
         ais[i].aiwin = App.get_points()
-        print(ais[i].aiwin)
+        #print(ais[i].aiwin)
+
         running = True
         App.reset(render)
 

@@ -16,7 +16,9 @@ class game:
 
         self.xb = [int(self.xmax /2), self.xmax]
         self.ybt = [random.randint(20, int (self.xmax + (self.xmax/-6 - 10))) for x in range(2)]
+        #self.ybt = [350, 350]
         self.ybb = [self.ybt[0] + (self.xmax/6), self.ybt[1] + (self.xmax/6)]
+
         self.y = 100
         self.x = int(self.xmax / 10)
         self.aceleration = 0
@@ -41,7 +43,9 @@ class game:
 
         self.xb = [int(self.xmax /2), self.xmax]
         self.ybt = [random.randint(20, int (self.xmax + (self.xmax/-6 - 10))) for x in range(2)]
+        #self.ybt = [350, 350]
         self.ybb = [self.ybt[0] + (self.xmax/6), self.ybt[1] + (self.xmax/6)]
+
         self.y = 100
         self.x = int(self.xmax / 10)
         self.aceleration = 0
@@ -99,8 +103,23 @@ class game:
         # gets the user input and sets the player aceleration
         if press:
             self.aceleration = -10
+
+            if self.xb[0] > self.xb[1]:
+                if self.ybt[1] > self.y:
+                    self.points -= 0.5
+            else:
+                if self.ybt[0] > self.y:
+                    self.points -= 0.5
         else:
             self.aceleration += 1
+
+            if self.xb[0] > self.xb[1]:
+                if self.ybb[1] > self.y:
+                    self.points -= 0.5
+            else:
+                if self.ybb[0] > self.y:
+                    self.points -= 0.5
+
 
         # movement
         self.y += self.aceleration

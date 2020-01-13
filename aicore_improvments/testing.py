@@ -5,7 +5,7 @@ import time
 
 n = 100
 outputlayers = 50
-ai = AI(n,outputlayers)
+ai = AI(100,100,50)
 
 #ai.importAI()
 #input = np.array([1 for y in range(n)])
